@@ -1,4 +1,4 @@
-### This repository is forked from xv6 from MIT. The repository contains solutions of the xv6 for RISC-V multiprocessor.
+### This repository is forked from [xv6](https://github.com/mit-pdos/xv6-riscv) from MIT. The repository contains solutions of the xv6 for RISC-V multiprocessor.
 
 
 
