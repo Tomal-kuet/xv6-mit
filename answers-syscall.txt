@@ -1,0 +1,4 @@
+1. usertrap() function in tracp.c is the function that called syscall
+2. p->trapframe->a7 value is 7. This value represents the exec system call number
+3. The CPU was in User mode before the trap as the SPP bit is set to 0.wq
+

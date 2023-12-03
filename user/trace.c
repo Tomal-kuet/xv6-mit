@@ -1,27 +1,32 @@
-#include "kernel/param.h"
 #include "kernel/types.h"
 #include "kernel/stat.h"
 #include "user/user.h"
+#include "kernel/fs.h"
+#include "kernel/fcntl.h"
+#include "kernel/param.h"
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-  int i;
-  char *nargv[MAXARG];
+	char *buff[MAXARG];
+	int i, mask = 0;
 
-  if(argc < 3 || (argv[1][0] < '0' || argv[1][0] > '9')){
-    fprintf(2, "Usage: %s mask command\n", argv[0]);
-    exit(1);
-  }
+	memset(buff, 0, MAXARG);
 
-  if (trace(atoi(argv[1])) < 0) {
-    fprintf(2, "%s: trace failed\n", argv[0]);
-    exit(1);
-  }
-  
-  for(i = 2; i < argc && i < MAXARG; i++){
-    nargv[i-2] = argv[i];
-  }
-  exec(nargv[0], nargv);
-  exit(0);
+	if(argc > 1)
+		mask = atoi(argv[1]);
+
+	if (trace(mask) != 1)
+	{
+		fprintf(2, "Trace failed \n");
+		exit(1);
+
+	}
+	for( i = 2; i < argc; i++)
+	{
+		buff[i - 2] = argv[i];
+	}
+
+	exec(buff[0], buff);
+
+	exit(0);
 }
