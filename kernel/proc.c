@@ -689,3 +689,19 @@ procdump(void)
     printf("\n");
   }
 }
+
+
+uint64 procnunsed(void)
+{
+	uint64 nunsedproc = 0;
+	struct proc *piterator;
+	
+	for(piterator = proc; piterator < &proc[NPROC]; piterator++)
+	{
+		if (piterator->state != UNUSED)
+			nunsedproc++;
+	}
+
+	return nunsedproc;
+
+}

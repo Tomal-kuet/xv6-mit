@@ -5,6 +5,7 @@
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
+#include "sysinfo.h"
 
 uint64
 sys_exit(void)
@@ -97,3 +98,24 @@ uint64 sys_trace(void)
 	argint(0, &myproc()->tracemask);
 	return 1;
 }
+
+uint64 sys_sysinfo(void)
+{
+	struct sysinfo ksysinfo;
+	uint64 infoAddr;
+	struct proc *p = myproc();
+
+	argaddr(0, &infoAddr);
+	
+	uint64 freemembytes = kfreememinfo(); //kfreememinfo is implemented in kalloc.c
+
+	uint64 numberofunsedproc = procnunsed(); //procnunsed is implemented in proc.c
+
+	ksysinfo.freemem = freemembytes;
+	ksysinfo.nproc = numberofunsedproc;
+
+	if (copyout(p->pagetable, infoAddr, (char *)&ksysinfo, sizeof(ksysinfo)) < 0)
+			return -1;
+	return 0;
+}
+
